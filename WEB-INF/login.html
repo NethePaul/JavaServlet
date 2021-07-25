@@ -1,0 +1,30 @@
+<p style="color: red;"><b id="msg"><!--MSG--></b></p>
+<table>
+    <tr>
+        <th><input id="name" placeholder="username" required="true"></th>
+        <th><input id="password" placeholder="password" required="true"></th>
+    </tr>
+</table>
+<table>
+    <tr>
+        <th><button onclick="login()">login</button></th>
+        <th><button onclick="register()">register</button></th>
+    </tr>
+</table>
+<script>
+    function login() {
+        post(
+            "login\n" +
+            document.getElementById("name").value + "\n" +
+            document.getElementById("password").value
+        );
+    };
+
+    function register() {
+        post(
+            "register\n" +
+            document.getElementById("name").value + "\n" +
+            document.getElementById("password").value
+        );
+    }
+</script>

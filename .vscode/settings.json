@@ -1,0 +1,43 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\annotations-api.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\catalina.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\catalina-ant.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\catalina-ha.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\catalina-ssi.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\catalina-storeconfig.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\catalina-tribes.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\ecj-4.20.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\el-api.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\jasper.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\jasper-el.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\jaspic-api.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\jsp-api.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\servlet-api.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-api.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-coyote.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-dbcp.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-cs.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-de.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-es.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-fr.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-ja.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-ko.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-pt-BR.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-ru.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-i18n-zh-CN.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-jdbc.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-jni.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-util.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-util-scan.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\tomcat-websocket.jar",
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\websocket-api.jar"
+    ],
+    "java.project.sourcePaths": [
+        "WEB-INF/classes"
+    ],
+    "java.classPath" : [
+        "c:\\Users\\Admin\\Downloads\\apache-tomcat-9.0.50\\lib\\*"
+    ]
+}
