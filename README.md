@@ -18,4 +18,4 @@ In the code is a limit of 100 session at once coded in but can be changed by sim
 The webpage updates by making a post request to the server containing in the first line of the body the name of the action to make like "login" followed by all relevent informations in the following lines, and then executing the javascript code that is in the reponse of the server, wich usually replaces the inner Html of an HTML element.
 
 ## Note
-Servlet.java and database.java have a constant that stores the local directory of "%CATALINA_BASE%/webapps/PROJECT_NAME/WEB-INF" which probably has to be updated. In compile.bat the classpath (-cp) also has to be updated to "%CATALINA_HOME%/lib/*"
+Servlet.java and database.java each have a constant that stores the local directory of "%CATALINA_BASE%/webapps/PROJECT_NAME/WEB-INF" which probably has to be updated. In compile.bat the classpath (-cp) also has to be updated to "%CATALINA_HOME%/lib/*"
