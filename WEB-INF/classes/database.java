@@ -96,14 +96,22 @@ public class database {
 
         load(Paths.get(filepath));
         int accid = -1;
-        for (int l = data.size(); l-- > 0;)
+        for (int l = 0; l < data.size(); l += 2)
             if (data.get(l).equals(""))
                 accid = l;
-        if (accid == -1)
+        boolean add = false;
+        if (accid == -1) {
             accid = data.size() / 2;
+            add = true;
+        }
         String accFilePath = dir + "accounts_" + nameHash + "\\acc_" + accid + ".data";
-        data.add(nameSHA);
-        data.add(accFilePath);
+        if (add) {// if added newly in database
+            data.add(nameSHA);
+            data.add(accFilePath);
+        } else {// else overwrite deleted account by inserting in its space
+            data.set(accid, nameSHA);
+            data.set(accid + 1, accFilePath);
+        }
         Files.createFile(Paths.get(accFilePath));
         save(Paths.get(filepath));
         load(Paths.get(accFilePath));
@@ -136,8 +144,13 @@ public class database {
         unload();
     }
 
-    public boolean authUser(int nameHash, int accid, String password) throws Exception {
+    /**
+     * loads the account and returns if the password is correct, you should call
+     * unload() after this (although it is not necessaryly required)
+     */
+    public boolean authAccount(int nameHash, int accid, String password) throws Exception {
         loadAccount(nameHash, accid);
         return data.get(0).equals(encryption.SHA512(password + nameHash + accid));
     }
+
 }

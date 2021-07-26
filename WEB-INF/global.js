@@ -6,13 +6,10 @@ function post(str = "") {
         })
         .then(response => response.text())
         .then(function(Response) {
-            document.getElementById("SCRIPT").innerText = "function f(){" + Response + "};";
-            nodeScriptReplace(document.getElementById("SCRIPT"));
-            f();
+            eval(Response);
             nodeScriptReplace(document.getElementById("body"));
-            document.getElementById("SCRIPT").innerText = "";
         });
-}
+};
 
 function nodeScriptReplace(node) {
     if (nodeScriptIs(node) === true) {
@@ -26,21 +23,20 @@ function nodeScriptReplace(node) {
     }
 
     return node;
-}
+};
 
 function nodeScriptClone(node) {
     var script = document.createElement("script");
     script.text = node.innerHTML;
 
     var i = -1,
-        attrs = node.attributes,
-        attr;
+        attrs = node.attributes;
     while (++i < attrs.length) {
-        script.setAttribute((attr = attrs[i]).name, attr.value);
+        script.setAttribute(attrs[i].name, attrs[i].value);
     }
     return script;
-}
+};
 
 function nodeScriptIs(node) {
     return node.tagName === 'SCRIPT';
-}
+};

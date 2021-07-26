@@ -1,9 +1,38 @@
 <p>
     <!--NAME-->
 </p>
+<p style="color: red;"><b id="msg"><!--MSG--></b></p>
 <button onclick="logout()">logout</button>
+<button id="predelacc" onclick="predelacc()">delete account</button>
+
+<div id="confirm delete" style="display:none;">
+    <p style="color: orangered;">please confirm by entering the password</p>
+    <input id="password" placeholder="confirm password">
+    <table>
+        <tr>
+            <th><button onclick="delacc()">delete account</button></th>
+            <th><button onclick="canceldelacc()">cancel</button></th>
+        </tr>
+    </table>
+</div>
 <script>
     function logout() {
         post("logout");
-    }
+    };
+
+    function predelacc() {
+        document.getElementById("predelacc").style.display = "none";
+        document.getElementById("confirm delete").style.display = "block";
+    };
+
+    function canceldelacc() {
+        document.getElementById("predelacc").style.display = "block";
+        document.getElementById("confirm delete").style.display = "none";
+
+    };
+
+    function delacc() {
+        post("delete account\n" + document.getElementById("password").value);
+        canceldelacc();
+    };
 </script>

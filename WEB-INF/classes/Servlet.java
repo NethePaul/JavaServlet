@@ -61,8 +61,32 @@ public class Servlet extends HttpServlet {
             logout(request, response);
         else if (firstline.equals("register"))
             register(request, response);
-        else if (firstline.equals("logout"))
-            logout(request, response);
+        else if (firstline.equals("delete account"))
+            delacc(request, response);
+    }
+
+    public void delacc(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        System.out.println("----------DELETE ACCOUNT----------");
+        String password = request.getReader().readLine();
+        SessionInfo sinfo = authRequest(request);
+        try {
+            if (!user.authAccount(sinfo.nameHash, sinfo.accid, password)) {
+                PrintWriter out = response.getWriter();
+                ReplaceJs(out, "msg", loadFile("wrong_password.html"));
+                out.close();
+                user.unload();
+                return;
+            }
+            user.unload();
+            user.delAccount(sinfo.nameHash, sinfo.accid);
+            PrintWriter out = response.getWriter();
+            ReplaceJs(out, "body", loadFile("login.html"));
+            out.close();
+        } catch (Exception e) {
+            PrintWriter out = response.getWriter();
+            ReplaceJs(out, "msg", loadFile("internal_error.html"));
+            out.close();
+        }
     }
 
     public void login(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -79,11 +103,13 @@ public class Servlet extends HttpServlet {
                 out.close();
                 return;
             }
-            if (!user.authUser(nameHash, accid, password)) {
+            if (!user.authAccount(nameHash, accid, password)) {
                 ReplaceJs(out, "msg", loadFile("wrong_credentials.html"));
                 out.close();
+                user.unload();
                 return;
             }
+            user.unload();
 
             int sid = findFreeSession();
             if (sid == -1) {
@@ -244,6 +270,7 @@ public class Servlet extends HttpServlet {
      */
     public void ReplaceJs(PrintWriter out, String Id, String Replace) {
         out.print(loadFile("replace.js").replace("ID", Id).replace("REPLACE", Replace.replace("'", "\\'"))
-                .replace("\n", "").replace("\r", ""));
+                .replace("\n", "").replace("\r", "")
+                .replace("\\n", "\\\\n")/* this bug was frustating to trach down */);
     }
 }
