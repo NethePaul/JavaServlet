@@ -1,0 +1,201 @@
+<table>
+    <tr>
+        <td><canvas id="snake" width="300" height="300">not supported</canvas>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <button onclick="l()">left</button>
+            <button onclick="r()">right</button>
+            <button onclick="restart()">restart</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <p id="score"></p>
+        </td>
+    </tr>
+</table>
+<script>
+    function vec2d(x, y) {
+        this.x = x;
+        this.y = y;
+        this.addi = function(vec) {
+            this.x += vec.x;
+            this.y += vec.y;
+            return this;
+        };
+        this.m = function(p) {
+            x *= p;
+            y *= p;
+            return this;
+        }
+    }
+
+    function intersect(p1, q1, p2, q2) {
+        var det, gamma, lambda;
+        det = (q1.x - p1.x) * (q2.y - p2.y) - (q2.x - p2.x) * (q1.y - p1.y);
+        if (det === 0) {
+            return false;
+        } else {
+            lambda = ((q2.y - p2.y) * (q2.x - p1.x) + (p2.x - q2.x) * (q2.y - p1.y)) / det;
+            gamma = ((p1.y - q1.y) * (q2.x - p1.x) + (q1.x - p1.x) * (q2.y - p1.y)) / det;
+            return (-0.01 < lambda && lambda < 1.01) && (-0.01 < gamma && gamma < 1.01);
+        }
+    }
+
+    function rand(min, max) {
+        return Math.random() * (max - min) + min;
+    }
+
+    function clone(a) {
+        if (typeof a !== "object" || a === null)
+            return a;
+        var obj = Object.assign({}, a);
+        for (var key in obj) {
+            if (Object.prototype.hasOwnProperty.call(obj, key)) {
+                obj[key] = clone(obj[key]);
+            }
+        }
+        return obj;
+    }
+
+    function circle(ctx, x, y, r) {
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2, true);
+        ctx.fill()
+    }
+
+    function body(x, y, dx, dy) {
+        this.p = new vec2d(x, y);
+        this.d = new vec2d(dx, dy);
+    }
+
+    function snake(width, height) {
+        this.reset = function() {
+
+            this.h = new body(25, 25, 1, 0);
+            this.b = [];
+            for (var i = 5; i-- > 0;)
+                this.b.unshift(new body(this.h.p.x - i, this.h.p.y, 1, 0));
+            this.f = new vec2d(rand(0, 50), rand(0, 50));
+            this.l = false;
+            this.s = 1;
+            this.i = 300;
+            this.t = undefined;
+            this.score = 0;
+        };
+        this.reset();
+        this.update = function() {
+            var o_head = clone(this.h);
+            this.h.p.addi(this.h.d.m(this.s));
+            for (var i = this.b.length; i-- > 0;) {
+                if (Math.abs(this.h.p.x - this.b[i].p.x) < 1 && Math.abs(this.h.p.y - this.b[i].p.y) < 1)
+                    this.l = true;
+            }
+            this.b.pop();
+            this.b.unshift(o_head);
+            if (this.h.p.x < 0 || this.h.p.y < 0 || this.h.p.x > 50 || this.h.p.y > 50)
+                this.l = true;
+            if (Math.abs(this.h.p.x - this.f.x) < 1.2 && Math.abs(this.h.p.y - this.f.y) < 1.2) {
+                this.f = new vec2d(rand(0, 50), rand(0, 50));
+                this.b.unshift(o_head);
+                this.i -= (this.i - 50) / 50;
+                this.score++;
+                document.getElementById("score").innerHTML = "score: " + this.score;
+            }
+        };
+        this.right = function() {
+            var t = this.h.d.x;
+            this.h.d.x = -this.h.d.y;
+            this.h.d.y = t;
+        };
+        this.left = function() {
+            var t = this.h.d.x;
+            this.h.d.x = this.h.d.y;
+            this.h.d.y = -t;
+        };
+        this.end = function() {
+            if (typeof t !== "undefined")
+                clearTimeout(this.t);
+        }
+        this.draw = function(ctx) {
+            ctx.fillStyle = 'green';
+            for (var i = this.b.length; i-- > 0;)
+                circle(ctx, this.b[i].p.x * width / 50, this.b[i].p.y * height / 50, width / 50);
+            ctx.fillStyle = 'yellow';
+            circle(ctx, this.f.x * width / 50, this.f.y * height / 50, width / 50);
+            ctx.fillStyle = 'red';
+            circle(ctx, this.h.p.x * width / 50, this.h.p.y * height / 50, width / 50);
+            ctx.fillStyle = 'black';
+        };
+    }
+
+    var game = 0;
+    var width = 0;
+    var height = 0;
+
+    function draw() {
+        var canvas = document.getElementById("snake");
+        var ctx = canvas.getContext("2d");
+        ctx.fillRect(0, 0, width, height);
+        game.draw(ctx);
+    }
+    var ponkd;
+
+    function load() {
+        scoreEl = document.getElementById("score");
+        console.log("loading");
+        var el = document.getElementById("snake").getBoundingClientRect();
+        width = el.width;
+        height = el.height;
+        game = new snake(width, height);
+        ponkd = document.onkeydown;
+        document.onkeydown = function(x) {
+            if (x.keyCode == 39)
+                r();
+            else if (x.keyCode == 37)
+                l();
+        };
+        restart();
+    }
+
+    function unload() {
+        game.end();
+        document.onkeydown = ponkd;
+    }
+
+    function restart() {
+        game.end();
+        game.reset();
+        run();
+    }
+
+    function l() {
+        game.left();
+    };
+
+    function r() {
+        game.right();
+    };
+
+    function run() {
+        var f = function() {
+            if (!document.getElementById("snake")) {
+                unload();
+                return;
+            }
+            game.t = setTimeout(f, game.i);
+            if (game.l) {
+                document.getElementById("score").innerHTML = "you lost<br>score: " + game.score.toString();
+                return;
+            }
+            game.update();
+            draw();
+        };
+        game.t = setTimeout(f, 300);
+    }
+
+    load();
+</script>
+<div onload="load()"></div>

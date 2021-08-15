@@ -28,7 +28,7 @@ function nodeScriptReplace(node) {
 function nodeScriptClone(node) {
     var script = document.createElement("script");
     script.text = node.innerHTML;
-
+    //eval(script.text);
     var i = -1,
         attrs = node.attributes;
     while (++i < attrs.length) {

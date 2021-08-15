@@ -37,8 +37,11 @@ public class Servlet extends HttpServlet {
                     throw new Exception("session not found");
                 } else {
                     response.setContentType("text/html");
-                    out.print(loadFile("index.html").replace("<!--REPLACE-->",
-                            loadFile("user.html").replace("<!--NAME-->", session[sinfo.sid].getName())));
+                    out.print(
+                        loadFile("index.html").replace("<!--REPLACE-->",
+                            loadFile("user.html")
+                            .replace("<!--NAME-->", session[sinfo.sid].getName())
+                            .replace("<!--GAME-->", loadFile("snake.html"))));
                     return;
                 }
             } catch (Exception e) {
@@ -118,7 +121,11 @@ public class Servlet extends HttpServlet {
                 return;
             }
             Cookie c = session[sid].createSession(name, accid, sid);
-            ReplaceJs(out, "body", loadFile("user.html").replace("<!--NAME-->", session[sid].getName()));
+            ReplaceJs(out, "body", 
+                loadFile("user.html")
+                    .replace("<!--NAME-->", session[sid].getName())
+                    .replace("<!--GAME-->", loadFile("snake.html"))
+                );
             response.addCookie(c);
             out.close();
         } catch (Exception e) {
@@ -269,8 +276,11 @@ public class Servlet extends HttpServlet {
      * @param Replace the text to replace it with
      */
     public void ReplaceJs(PrintWriter out, String Id, String Replace) {
-        out.print(loadFile("replace.js").replace("ID", Id).replace("REPLACE", Replace.replace("'", "\\'"))
-                .replace("\n", "").replace("\r", "")
-                .replace("\\n", "\\\\n")/* this bug was frustating to trach down */);
+        out.print(
+            loadFile("replace.js")
+                .replace("ID", Id)
+                .replace("REPLACE", Replace.replace("\\", "\\\\").replace("'", "\\'"))
+                .replace("\n", "\\n").replace("\r", "\\r")
+                );
     }
 }
